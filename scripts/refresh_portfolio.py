@@ -3,7 +3,10 @@ import re
 p=Path("index.html")
 c=p.read_text(encoding="utf-8")
 if "PORTFOLIO_REFRESH_2026" in c:
-    print("Already refreshed")
+    updated=re.sub(r'<link rel="icon" href="data:image/[^"]+" type="image/svg\\+xml">','<link rel="icon" href="/favicon.svg" type="image/svg+xml">',c)
+    if updated != c:
+        p.write_text(updated,encoding="utf-8")
+        print("Fixed favicon")
     raise SystemExit(0)
 c=re.sub(r'<link rel="icon" href="data:image/svg\\+xml;base64,[^"]+" type="image/svg\\+xml">','<link rel="icon" href="/favicon.svg" type="image/svg+xml">',c)
 c=c.replace('<meta name="theme-color" content="#090b1a">','<meta name="theme-color" content="#163a32">')
